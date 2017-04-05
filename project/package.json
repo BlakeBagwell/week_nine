@@ -12,6 +12,8 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "fs-promise": "^2.0.2",
     "hbs": "^4.0.1",
     "pg-promise": "^5.6.4"
   }

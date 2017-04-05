@@ -1,0 +1,13 @@
+<h1>{{restaurant.restaurant_name}}</h1>
+<p>Address: {{restaurant.address}}</p>
+<p>Category: {{restaurant.category}}</p>
+{{#if reviews}}
+<!-- the if statement here is basically just checking if reviews exists, if it does it will generate the rest of the data -->
+  <h2>Reviews</h2>
+  {{#each reviews}}
+    <h3>{{title}}</h3>
+    <p>Author: {{reviewer_name}}</p>
+    <p>Stars: {{stars}}</p>
+    <p>{{review}}</p>
+  {{/each}}
+{{/if}}

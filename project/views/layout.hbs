@@ -3,8 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-  </head>
+    <link href="/style.css" rel="stylesheet">  </head>
   <body>
+    {{#if session.userKey}}
+      <p>Hello {{session.userKey}}</p>
+    {{/if}}
     {{{body}}}
   </body>
 </html>
+
+<!--this is a standard layout page. Since it's in the views folder, all other hbs files will basically be rendered in the body portion of this page.-->

@@ -1,0 +1,16 @@
+<h1>Results</h1>
+<ul>
+  {{#each results}}
+    <li>
+      <a href="/restaurant/{{id}}">{{name}}</a>
+      {{address}}<br>
+      {{category}}
+    </li>
+  {{/each}}
+</ul>
+ <!--
+This takes in an array of objects and produces a link named after the restaurant it corresponds to. it also lists its address and category. Because the link that is being created will take us to a new page with the root being /restaurant, we need a handler, so we create that in our js file.  -->
+
+<!--
+the {{id}} was a bit puzzling for a bit. How does it grab the id? how does it know what to do? Its because when we query the database with db.any, we had it select everything (*) relevant to the data. SO it grabbed the name of the restaurant, address, category and a few other things includeing the ID!, so it has that information, and we can use that here. but then we have to make a handler not just for the /restaurant page, but something to dynamically handle /restaurant + any kind of ID that could be produced. That will end up looking like /restaurant/:id . And that will go in the handler in our js file. Lets look there now.
+  -->
