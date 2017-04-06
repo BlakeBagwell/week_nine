@@ -173,6 +173,13 @@ app.get('/restaurant/:id', function(req, resp, next) {//so now we have a handler
     .catch(next);
 });
 
+// app.post('submit_review/:id', function(req, resp, next) {
+//   var restaurantId = req.params.id;
+//   db.none(`
+//     insert into review values
+//     `)
+// })
+
 app.listen(3000, function() {
   console.log('Listening on port 3000.');
 });
