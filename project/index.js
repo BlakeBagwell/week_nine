@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const fsp = require('fs-promise');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -18,11 +19,11 @@ const db = pgp({
 app.use(session({
   secret:'ajsdhfkashflkajshdf',
   cookie: {
-    maxAge: 60000
+    maxAge: 60000000
   }
 }));
 
-// app.use(function(req, resp) {
+// app.use(function(req, resp, next) {
 //   resp.local.session = req.session;
 //   next();
 // });
@@ -37,29 +38,71 @@ app.use(function myMiddleware(request, response, next) {
 });
 
 app.get('/', function(req, resp){
-  resp.render('login.hbs', {
+  resp.render('login_signup.hbs', {
     name: req.session.userKey
   });
 });
 
-app.post('/login', function(req, resp, next) {
+app.post('/account_created', function(req, resp) {
   var name = req.body.usernameFromForm;
-  var password = req.body.passwordFromForm;
-  console.log(name);
-  console.log(password);
+  var attempt_one = req.body.passwordFromForm1;
+  var attempt_two = req.body.passwordFromForm2;
+  var email = req.body.emailFromForm;
+  var karma = 2;
+  if (attempt_one === attempt_two) {
+    bcrypt.hash(attempt_one, 10)
+      .then(function(encryptedPassword){
+        db.none(`insert into reviewer (name, email, password) values ($1, $2, $3)`, [name, email, encryptedPassword]);
+        console.log(encryptedPassword);
+      })
+      .catch(function(err) {
+        console.log(err.message);
+      });
+    resp.send('Account created! Please <a href="/">Login</a>');
+  }
+  else {
+    resp.send('Account creation failed Please <a href="/">try again</a>');
+  }
+});
+
+app.post('/login', function(req, resp, next) {
+  var name = req.body.usernameFromForm; //grabbing the user input
+  var password = req.body.passwordFromForm; //grabbing the user input
   db.one(`
     select
-      reviewer.name, reviewer.password
+      reviewer.password
     from
       reviewer
     where
-      reviewer.name = $1 and reviewer.password = $2`, [name, password])
-    .then(function(reviewer) {
-      req.session.userKey = name;
-      resp.redirect('/search');
+      reviewer.name = $1`, [name]
+    ) //accessing the database. we are grabbing the encrypted password (that is saved on the database) that is associated with the name the user gave us, we pass that down the chain
+    .then(function(encryptedPassword) { //we now have the password from the table
+      return bcrypt.compare(password, encryptedPassword.password)//we now use bcrypt to compare what the user gave (which is passed through encryptiong) and then compared with what is stored in the database, and we pass down a boolean
     })
-    .catch(next);
+    .then(function(matched){ //we now have the boolean
+      if (matched) { //we check if the boolean is true, if yes VVV
+        req.session.userKey = name; //we assign the userKey a value, in this case the name they entered when trying to log in. Now the user will have a session and we can go through the authentication process.
+        resp.redirect('/search');// This will bring us to the search page, but first it has to pass through authentication, if the userKey has a value, it will be authenticated.
+      console.log('It matched?', matched);
+      }
+      else {
+        console.log('Did not match');
+        resp.redirect('/')
+      }
+    })
+    .catch(function(err) {
+      console.log('Login unsuccessful', err.message);
+      resp.redirect('/')
+    });
 });
+
+// bcrypt.compare(correctPassword, encryptedPassword)
+//   .then(function(matched){
+//     console.log('It matched?', matched);
+//   })
+//   .catch(function(err) {
+//     console.log(err.message);
+//   })
 
 app.use(function authentication(req, resp, next){
   if (req.session.userKey) {
