@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas fillRect Example</title>
+  </head>
+  <body>
+    <canvas id="the-canvas" width="500" height="500"></canvas>
+    <script>
+    // get the canvas element
+    var canvas = document.getElementById('the-canvas');
+    // get the drawing context
+    var ctx = canvas.getContext('2d');
+
+    // color of the fill
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(50, 50, 100, 200);
+
+    </script>
+  </body>
+</html>

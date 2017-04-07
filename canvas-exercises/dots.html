@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Dots Example</title>
+  </head>
+  <body>
+    <canvas id="the-canvas" width="500" height="500"></canvas>
+    <script>
+    // get the canvas element
+    var canvas = document.getElementById('the-canvas');
+    // get the drawing context
+    var ctx = canvas.getContext('2d');
+
+    // color of the fill
+    ctx.fillStyle = 'red';
+
+    // surround the ellipse draw with beginPath() and closePath()
+    ctx.beginPath();
+
+    // draw the ellipse at (100, 100), with vertical and horizontal radius' of 10
+    ctx.ellipse(100, 100, 10, 10, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = 'blue';
+    ctx.beginPath();
+    ctx.ellipse(200, 200, 10, 10, 0, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fill();
+    </script>
+  </body>
+</html>

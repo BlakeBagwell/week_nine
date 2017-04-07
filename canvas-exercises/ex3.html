@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <!--Draw a rectangle  -->
+    <canvas id ="the-canvas" width="500" height="500"></canvas>
+    <script>
+      var canvas = document.getElementById('the-canvas');
+      var ctx = canvas.getContext('2d');
+
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 5;
+
+      ctx.beginPath();
+      ctx.moveTo(200, 100);
+      ctx.lineTo(400, 100);
+      ctx.lineTo(400, 500);
+      ctx.lineTo(200, 500);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(250, 150);
+      ctx.lineTo(350, 150);
+      ctx.lineTo(350, 450);
+      ctx.lineTo(250, 450);
+      ctx.closePath();
+      ctx.stroke();
+
+    </script>
+  </body>
+</html>

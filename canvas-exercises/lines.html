@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Lines Example</title>
+  </head>
+  <body>
+    <canvas id="the-canvas" width="500" height="500"></canvas>
+    <script>
+
+    var canvas = document.getElementById('the-canvas');
+    var ctx = canvas.getContext('2d');
+
+    // color of the stroke
+
+    // surround the actually line draw with beginPath() and closePath()
+
+
+    ctx.strokeStyle = 'red';
+    // ctx.lineJoin = 'round';
+    ctx.lineWidth = 5;
+
+
+    ctx.beginPath();
+    ctx.moveTo(100, 100);
+    ctx.lineTo(200, 200);
+    ctx.lineTo(100, 200);
+    ctx.closePath();
+    ctx.stroke();
+
+
+    </script>
+  </body>
+</html>
